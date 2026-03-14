@@ -14,6 +14,8 @@ const [amount, setAmount] = useState("");
 const [category, setCategory] = useState("Food");
 const [date, setDate] = useState("");
 
+const [errors, setErrors] = useState({});
+
 useEffect(() => {
 if (editingExpense) {
 setTitle(editingExpense.title);
@@ -29,29 +31,43 @@ setDate("");
 }, [editingExpense]);
 
 const handleSubmit = (e) => {
-e.preventDefault();
+  e.preventDefault();
 
+  const newErrors = {};
 
-if (!title.trim()) return;
-if (!amount || Number(amount) <= 0) return;
-if (!date) return;
+  if (!title.trim()) {
+    newErrors.title = "Title is required";
+  }
 
-const expenseData = {
-  id: editingExpense ? editingExpense.id : Date.now(),
-  title: title.trim(),
-  amount: Number(amount),
-  category,
-  date,
-};
+  if (!amount || Number(amount) <= 0) {
+    newErrors.amount = "Enter valid amount";
+  }
 
-editingExpense ? updateExpense(expenseData) : addExpense(expenseData);
+  if (!date) {
+    newErrors.date = "Date is required";
+  }
 
-setTitle("");
-setAmount("");
-setCategory("Food");
-setDate("");
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    return;
+  }
 
+  setErrors({});
 
+  const expenseData = {
+    id: editingExpense ? editingExpense.id : Date.now(),
+    title: title.trim(),
+    amount: Number(amount),
+    category,
+    date,
+  };
+
+  editingExpense ? updateExpense(expenseData) : addExpense(expenseData);
+
+  setTitle("");
+  setAmount("");
+  setCategory("Food");
+  setDate("");
 };
 
 return ( <Card className="rounded-2xl shadow-md"> <CardContent className="space-y-6">
@@ -69,6 +85,8 @@ return ( <Card className="rounded-2xl shadow-md"> <CardContent className="space-
         margin="normal"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        error={!!errors.title}
+        helperText={errors.title}
       />
 
       <TextField
@@ -78,6 +96,8 @@ return ( <Card className="rounded-2xl shadow-md"> <CardContent className="space-
         margin="normal"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
+        error={!!errors.amount}
+        helperText={errors.amount}
       />
 
       <TextField
@@ -86,6 +106,8 @@ return ( <Card className="rounded-2xl shadow-md"> <CardContent className="space-
         margin="normal"
         value={date}
         onChange={(e) => setDate(e.target.value)}
+        error={!!errors.date}
+        helperText={errors.date}
       />
 
       <TextField

@@ -103,11 +103,13 @@ return ( <div className="flex flex-col items-center">
 
   ) : (
 
-    <Typography color="text.secondary">
-      No data
+    <Typography
+    color="text.secondary"
+    sx={{ mt: 6, fontStyle: "italic" }}
+    >
+    No expense data available for chart 
     </Typography>
-
-  )}
+ )}
 
 </div>
 

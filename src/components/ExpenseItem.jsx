@@ -37,7 +37,12 @@ return ( <Card className="rounded-xl shadow hover:shadow-lg transition">
 
         <IconButton
           color="error"
-          onClick={() => deleteExpense(expense.id)}
+          onClick={() => {
+            const confirmDelete = window.confirm("Are you sure you want to delete this expense?");
+            if (confirmDelete) {
+              deleteExpense(expense.id);
+            }
+          }}
         >
           <DeleteIcon />
         </IconButton>
