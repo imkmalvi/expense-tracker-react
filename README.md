@@ -5,9 +5,6 @@
 A modern expense tracking web application built using **React + Vite**.
 Users can add, edit, delete and analyze their daily expenses with category filtering and visual charts.
 
-## Live Demo
-
-https://vocal-toffee-0ab434.netlify.app
 
 ## Features
 
